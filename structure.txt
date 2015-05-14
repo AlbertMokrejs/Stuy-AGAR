@@ -1,0 +1,9 @@
+Class Game{
+  -initializes game world, arraylist of orbs and a player orb.
+  -Has a Turn() method which runs turns per each orbs: processing prints at this time.
+  -Checks if player is alive: ends game if dead.
+  -Displays score.
+  }
+  
+Class Orb{
+  -is an orb: keeps track of its Size, xCord, yCord.
