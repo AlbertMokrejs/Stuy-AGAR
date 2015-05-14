@@ -20,5 +20,10 @@ Class PlayerOrb extends Orb{
   -if it gets too close to another orb it dies. Death ends the game, as monitored by Game.
   -can have its size increased by other orbs as they die.
   }
+  
+  
+Class VPoint{
+  -a vector class cause java vectors are ew
+}
 
 
