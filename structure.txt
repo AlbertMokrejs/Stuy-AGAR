@@ -10,7 +10,15 @@ Class Orb{
   -if its too close to another orb (which is bigger) it'll delete itself and increase the other orbs size.
   -otherwise it would use vector addition and mildRNG to determine an optimal direction to travel.
       -Travel speed is inversely proportional to size.
-  -can have its size increased by other orbs.
+  -can have its size increased by other orbs as they die.
+  }
+  
+Class PlayerOrb extends Orb{
+  -is an orb, keeps track of its Size, xCord, yCord.
+  -takes player inputs to move in real time.
+      -Speed based on inverse of size.
+  -if it gets too close to another orb it dies. Death ends the game, as monitored by Game.
+  -can have its size increased by other orbs as they die.
   }
 
 
