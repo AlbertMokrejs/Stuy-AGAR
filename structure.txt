@@ -7,3 +7,10 @@ Class Game{
   
 Class Orb{
   -is an orb: keeps track of its Size, xCord, yCord.
+  -if its too close to another orb (which is bigger) it'll delete itself and increase the other orbs size.
+  -otherwise it would use vector addition and mildRNG to determine an optimal direction to travel.
+      -Travel speed is inversely proportional to size.
+  -can have its size increased by other orbs.
+  }
+
+
