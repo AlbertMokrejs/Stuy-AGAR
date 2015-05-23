@@ -1,26 +1,25 @@
-public class VPoint{
+public class vpoint {
   int x;
   int y;
-  
-  public VPoint(int a, int b){
+
+  public vpoint(int a, int b) {
     x = a;
     y = b;
   }
-  
-  public void setX(int a){
+
+  public void setX(int a) {
     x = a;
   }
-  
-  public void setY(int a){
+
+  public void setY(int a) {
     y = a;
   }
-  
-  public int getX(){
+
+  public int getX() {
     return x;
   }
-  
-  public int getY(){
+
+  public int getY() {
     return y;
   }
-  
 }
