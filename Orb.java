@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Orb implements Comparable<Orb> {
-  private int size; //size is the area of the orb, not the radius
-  private int xcor;
-  private int ycor;
+   int size; //size is the area of the orb, not the radius
+  public int xcor;
+  public int ycor;
   public int xchange;
   public int ychange;
   //speed not tracked but calculated when needed
@@ -34,24 +34,24 @@ public class Orb implements Comparable<Orb> {
   public int dist(Orb a) {
     int x = a.getX() - getX(); //saves direction of X and Y
     int y = a.getY() - getY();
-    return (int)Math.sqrt(x^2 + y^2);
+    return (int)Math.sqrt(x*x + y*y);
   }
   
   public void kill(ArrayList<Orb> orbs,int x){
-    size = (int)Math.sqrt(size^2 + orbs.get(x).getS()^2);
+    size = (int)Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     orbs.remove(x);
   }
 
-  public void turn(ArrayList<Orb> orbs) {
+  public void turn(ArrayList<Orb> orbs, Orb player) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
-    for (int x = 0; x < orbs.size (); x++) {
-      //if(dist(orbs.get(x)) == 0){
-        //kill(orbs, x);
-        //x--;
-     //}
-      //else{
+    for (int x = 0; x < orbs.size(); x++) {
+      if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
+        kill(orbs, x);
+        x--;
+     }
+      else{
       vect.add(process(orbs.get(x)));
-      //}
+      }
     }
     int xdelt = 0;
     int ydelt = 0;
@@ -67,16 +67,16 @@ public class Orb implements Comparable<Orb> {
     if(ydelt == 0){
       ydelt = 1;}
     if(xdelt < 0){
-      xmove = -1 * (int)(0.1 * getSpeed() * Math.sqrt((xdelt^2 / (xdelt^2 + ydelt^2 + 1))));
+      xmove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     else{
-      xmove = (int)(0.1 * getSpeed() * Math.sqrt(xdelt^2 / (xdelt^2 + ydelt^2 + 1)));
+      xmove = (int)(10 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     if(ydelt < 0){
-      ymove = -1 * (int)(0.1 * getSpeed() * Math.sqrt((ydelt^2 / (xdelt^2 + ydelt^2 + 1))));
+      ymove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     else{
-      ymove = (int)(0.1 * getSpeed() * Math.sqrt(ydelt^2 / (xdelt^2 + ydelt^2 + 1)));
+      ymove = (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     ychange = ymove;
     xchange = xmove;
@@ -91,7 +91,7 @@ public class Orb implements Comparable<Orb> {
     int score = getS() - a.getS(); //negative score negates direction
     int x = a.getX() - getX(); //saves direction of X and Y
     int y = a.getY() - getY();
-    score = (int)(20 * score / Math.sqrt(x^2 + y^2)); //alters intensity, somewhat arbitrary
+    score = (int)(20 * score / Math.sqrt(x*x + y*y)); //alters intensity, somewhat arbitrary
     return new vpoint(score*x, score*y);
   }
 
