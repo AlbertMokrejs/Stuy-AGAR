@@ -31,7 +31,7 @@ public void draw(){
       a.turn(orblist, player);
     }
     for(Orb a: orblist){
-  fill(c);
+      fill(c);
     ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*5, (float)a.getS()*5);
   }
   //runs through orb array, processing each orb
