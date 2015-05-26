@@ -3,7 +3,17 @@ import java.util.*;
 public class playerOrb extends Orb{
   
   public playerOrb(){
-    super(100,100,14);
+    super(100,100,10);
+  }
+  
+    public void kill(ArrayList<Orb> orbs,int x){
+    int y = (int)Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
+    if(size + 1 >= y){
+      size += 1;}
+     else{
+       size = y;
+     }
+    orbs.remove(x);
   }
 //inherits a lot of methods and variables
 
