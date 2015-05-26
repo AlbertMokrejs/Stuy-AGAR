@@ -3,6 +3,20 @@ StuyCS Agar Remake (Single Player)
 
 =====
 
-Everything is broken so far.
+DEV LOG:
 
-Orbs spawn but don't move. Player orbs spawn but don't move.
+-26-05-2015: Made AI work and orbs properly absorb eachother; PlayerOrb still broken
+
+=====
+
+TO DO:
+
+-Centering
+
+-Fix PlayerOrb
+
+-Graphic Design
+
+-Networking
+
+-Viruses
