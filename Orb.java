@@ -17,12 +17,12 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int getSpeed() {
-    int y = 10 - getS();
+    int y = 20 - getS();
     if (y < 2) {
       y = 2;
     }
     if (size == 1) {
-      y = 0;
+      y = 1;
     }
     return y;
   }
@@ -32,20 +32,25 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int dist(Orb a) {
-    int x = a.getX() - getX(); //saves direction of X and Y
-    int y = a.getY() - getY();
+    int x = a.getX() - xcor; //saves direction of X and Y
+    int y = a.getY() - ycor;
     return (int)Math.sqrt(x*x + y*y);
   }
   
   public void kill(ArrayList<Orb> orbs,int x){
-    size = (int)Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
+    int y = (int)Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
+    if(size + 1 >= y){
+      size += 1;}
+     else{
+       size = y;
+     }
     orbs.remove(x);
   }
 
   public void turn(ArrayList<Orb> orbs, Orb player) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
     for (int x = 0; x < orbs.size(); x++) {
-      if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
+      if(orbs.get(x) != player && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < 2.5*size && orbs.get(x).compareTo(this) < 1){
         kill(orbs, x);
         x--;
      }
