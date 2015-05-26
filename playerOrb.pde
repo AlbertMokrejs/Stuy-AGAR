@@ -20,13 +20,13 @@ public class playerOrb extends Orb{
 
 public void turn(ArrayList<Orb> orbs,Orb player) {
     for (int x = 0; x < orbs.size (); x++) {
-      if(orbs.get(x) != this && dist(orbs.get(x)) == 0){
+      if(dist(orbs.get(x)) < 2.5*size && dist(orbs.get(x)) != 0){
         kill(orbs, x);
         x--;
      }
     }
-    int xmove = 0;
-    int ymove = 0;
+    int xmove;
+    int ymove;
     int xdelt = mouseX;
     int ydelt = mouseY;
     if(xdelt < 0){
@@ -46,8 +46,3 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     xcor += xmove;
     ycor += ymove;
   }
-
-
-
-
-}
