@@ -15,7 +15,7 @@ public void setup() {
   orblist.add(player);
   stroke(255);     // Set line drawing color to white
   frameRate(60);
-  
+  cursor();
 }
 
 public void draw(){
