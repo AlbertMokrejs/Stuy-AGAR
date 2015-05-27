@@ -29,6 +29,11 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     int ymove;
     int xdelt = mouseX;
     int ydelt = mouseY;
+    if(xdelt == 0){
+      xdelt = 1;
+    }
+    if(ydelt == 0){
+      ydelt = 1;}
     if(xdelt < 0){
       xmove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
