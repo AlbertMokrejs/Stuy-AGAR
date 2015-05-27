@@ -11,10 +11,19 @@ public void setup() {
   player = new playerOrb();
   score = 0;
   orblist = new ArrayList<Orb>();
-  orblist.add(new Orb(400,400,19));
   orblist.add(player);
+  for(int x = 0; x < 150; x++){
+    orblist.add(new Orb((int)(Math.random()*3000 - 1500), (int)(Math.random()*3000 - 1500), (int)(Math.random()*3)));
+  }
+  
+  for(int y = 1; y < orblist.size(); y++){
+     if(orblist.get(y).dist(player) < 10 && orblist.get(y) != player){
+       orblist.remove(y);
+       y--;
+     }
+  }
   stroke(255);     // Set line drawing color to white
-  frameRate(60);
+  frameRate(30);
   cursor();
 }
 
@@ -22,9 +31,9 @@ public void draw(){
   background(0);
   color c = color(153);
   fill(c);
-   //for(int x = 0; x < 2;){
-     orblist.add(new Orb((int)(Math.random()*2*height - height), (int)(Math.random()*2*width - width), (int)(Math.random() * 3)));
-   //}   
+   if(Math.random() > 0.2){
+     orblist.add(new Orb((int)(Math.random()*3000 - 1500), (int)(Math.random()*3000 - 1500), (int)(Math.random()*3)));
+   }   
   //spawns a few random orbs
     for(int x = 0; x < orblist.size(); x++){
       Orb a = orblist.get(x);
@@ -32,7 +41,7 @@ public void draw(){
     }
     for(Orb a: orblist){
       fill(c);
-    ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*5, (float)a.getS()*5);
+    ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
   }
   //runs through orb array, processing each orb
   //checks if player survived
