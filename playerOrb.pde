@@ -27,28 +27,33 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     }
     int xmove;
     int ymove;
-    int xdelt = mouseX;
-    int ydelt = mouseY;
+    int xdelt = 9000*(mouseX-xcor);
+    int ydelt = 9000*(mouseY-ycor);
+    print(ydelt + "\n");
+    print(xdelt + "\n\n");
     if(xdelt == 0){
       xdelt = 1;
     }
     if(ydelt == 0){
       ydelt = 1;}
     if(xdelt < 0){
-      xmove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      xmove = -1 * (int)(1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     else{
-      xmove = (int)(0.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      xmove = (int)(1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     if(ydelt < 0){
-      ymove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      ymove = -1 * (int)(1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     else{
-      ymove = (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      ymove = (int)(1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt)));
     }
+    print(xmove + "\n");
+    print(ymove + "\n\n");
     ychange = ymove;
     xchange = xmove;
     xcor += xmove;
     ycor += ymove;
   }
+  
 }
