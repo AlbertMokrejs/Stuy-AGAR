@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Orb implements Comparable<Orb> {
-   int size; //size is the area of the orb, not the radius
+  double size; //size is the area of the orb, not the radius
   public int xcor;
   public int ycor;
   public int xchange;
@@ -28,7 +28,7 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int compareTo(Orb other) {
-    return this.size-other.getS();
+    return this.getS()-other.getS();
   }
 
   public int dist(Orb a) {
@@ -39,11 +39,7 @@ public class Orb implements Comparable<Orb> {
   
   public void kill(ArrayList<Orb> orbs,int x){
     int y = (int)Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
-    if(size + 1 >= y){
-      size += 1;}
-     else{
-       size = y;
-     }
+    size = y;
     orbs.remove(x);
   }
 
@@ -72,16 +68,16 @@ public class Orb implements Comparable<Orb> {
     if(ydelt == 0){
       ydelt = 1;}
     if(xdelt < 0){
-      xmove = -1 * (int)(.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      xmove = -1 * (int)(.3 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     else{
-      xmove = (int)(.1 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      xmove = (int)(.3 * getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     if(ydelt < 0){
-      ymove = -1 * (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      ymove = -1 * (int)(0.3 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     else{
-      ymove = (int)(0.1 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
+      ymove = (int)(0.3 * getSpeed() * Math.sqrt(ydelt*ydelt / (xdelt*xdelt + ydelt*ydelt + 1)));
     }
     ychange = ymove;
     xchange = xmove;
@@ -96,7 +92,7 @@ public class Orb implements Comparable<Orb> {
     int score = getS() - a.getS(); //negative score negates direction
     int x = a.getX() - getX(); //saves direction of X and Y
     int y = a.getY() - getY();
-    score = (int)(10 * score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
+    score = (int)(Math.log(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
     return new vpoint(score*x, score*y);
   }
 
@@ -113,7 +109,7 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int getS() {
-    return size;
+    return (int)size;
   }
 
   public int getX() {
