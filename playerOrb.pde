@@ -51,3 +51,4 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     xcor += xmove;
     ycor += ymove;
   }
+}

@@ -1,6 +1,6 @@
-public class vpoint {
-  int x;
-  int y;
+class vpoint{
+  public int x;
+  public int y;
 
   public vpoint(int a, int b) {
     x = a;
