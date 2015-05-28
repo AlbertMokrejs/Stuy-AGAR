@@ -6,6 +6,7 @@ public class Orb implements Comparable<Orb> {
   public double ycor;
   public double xchange;
   public double ychange;
+  public color C;
   //speed not tracked but calculated when needed
 
   public Orb(int x,int y,int z){
@@ -14,6 +15,7 @@ public class Orb implements Comparable<Orb> {
     size = z;
     xchange = 0;
     ychange = 0;
+    C = color((int)(Math.random()*155 + 100),(int)(Math.random()*155 + 100) ,(int)(Math.random()*155 + 100) );
   }
 
   public int getSpeed() {
@@ -42,6 +44,9 @@ public class Orb implements Comparable<Orb> {
     size = y;
     orbs.remove(x);
   }
+  
+  public color getColor(){
+    return C;}
 
   public void turn(ArrayList<Orb> orbs, Orb player) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
