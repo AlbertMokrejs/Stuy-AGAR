@@ -53,12 +53,13 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     else{
       ymove = Math.abs(getSpeed() - xmove);
     }
-    print(xmove + "\n");
-    print(ymove + "\n\n");
+    //print(xmove + "\n");
+    //print(ymove + "\n\n");
     ychange = ymove;
     xchange = xmove;
     xcor += xmove;
     ycor += ymove;
+    translate(-1*((float)player.xcor-width/2),-1* ((float)player.ycor-height/2));
   }
   
 }
