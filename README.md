@@ -13,11 +13,13 @@ DEV LOG:
 
 -27-05-2015: Upgrades INTs to DOUBLEs for sake of precision
 
+-28-05-2015: Added Score Keeping + Motion Centering
+
+-28-05-2015: Added Random but constant colors 
+
 =====
 
 TO DO:
-
--Centering
 
 -Graphic Design
 
