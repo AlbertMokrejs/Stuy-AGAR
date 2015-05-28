@@ -27,8 +27,14 @@ public void setup() {
   cursor();
 }
 
+public color randomColor(){
+   color c = color((int)(Math.random()*155+100),(int)(Math.random()*155+100) ,(int)(Math.random()*155+100) );
+   return c;
+}
+
 public void draw(){
   background(0);
+  
   color c = color(153);
   fill(c);
    if(Math.random() > 0.2){
@@ -40,7 +46,7 @@ public void draw(){
       a.turn(orblist, player);
     }
     for(Orb a: orblist){
-      fill(c);
+      fill(a.getColor());
     ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
   }
   //runs through orb array, processing each orb
