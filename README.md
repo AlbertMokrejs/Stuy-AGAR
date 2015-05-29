@@ -17,6 +17,8 @@ DEV LOG:
 
 -28-05-2015: Added Random but constant colors 
 
+-29-05-2015: Added IDs for Orbs and PlayerOrbs, and Ledger creation ((ON NETWORKING PREALPHA))
+
 =====
 
 TO DO:
