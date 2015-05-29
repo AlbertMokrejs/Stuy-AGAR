@@ -2,8 +2,8 @@ import java.util.*;
 
 public class playerOrb extends Orb{
   
-  public playerOrb(){
-    super(width/2,height/2,10);
+  public playerOrb(int x){
+    super(width/2,height/2,10,100000+x);
   }
   
   public void kill(ArrayList<Orb> orbs,int x){
@@ -31,8 +31,8 @@ public void turn(ArrayList<Orb> orbs,Orb player) {
     if(ydelt < 36 && ydelt > -36){
       ydelt = 0;
     }
-    print(ydelt + "\n");
-    print(xdelt + "\n\n");
+    print(mouseX + "\n");
+    print(mouseY + "\n\n");
     if(xdelt == 0 && ydelt == 0){
        if(Math.random() > 0.5){
         xdelt = 1;
