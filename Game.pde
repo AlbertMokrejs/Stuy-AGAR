@@ -79,6 +79,8 @@ public void draw(){
       }
   }
   reID();
+  fill(255);
+  text("" + player.size, (int)player.xcor - width/2 + 50, (int)player.ycor + height/2 -  50);
   //runs through orb array, processing each orb
   //checks if player survived
   //incremements score if player alive and size has increased
