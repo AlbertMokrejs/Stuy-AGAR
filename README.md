@@ -5,6 +5,12 @@ TEAM: AGAR.STUYO
 
 =====
 
+STABLE VERSION 1:
+
+You can move around and eat orbs, but stuff is still pretty basic. We're now working on score keeping, graphics, and networking.
+
+=====
+
 DEV LOG:
 
 -26-05-2015: Made AI work and orbs properly absorb eachother; PlayerOrb still broken
