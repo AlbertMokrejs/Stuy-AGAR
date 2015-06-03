@@ -31,8 +31,8 @@ public void turn(ArrayList<Orb> orbs,Orb player, int D) {
     if(ydelt < 36 && ydelt > -36){
       ydelt = 0;
     }
-    print(ydelt + "\n");
-    print(xdelt + "\n\n");
+    print(ycor + "\n");
+    print(xcor + "\n\n");
     if(xdelt == 0 && ydelt == 0){
        if(Math.random() > 0.5){
         xdelt = 1;
