@@ -106,8 +106,6 @@ public class Orb implements Comparable<Orb> {
   }
   
 
-
-
   public vpoint process(Orb a) {
     double score = size - a.getS(); //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
