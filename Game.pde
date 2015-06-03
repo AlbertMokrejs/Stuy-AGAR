@@ -44,7 +44,7 @@ public void draw(){
   Arrays.sort(orblist);
     for(int x = 0; x < orblist.size(); x++){
       Orb a = orblist.get(x);
-      a.turn(orblist, player);
+      a.turn(orblist, player, x);
     }
     for(Orb a: orblist){
       fill(a.getColor());
