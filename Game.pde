@@ -41,6 +41,7 @@ public void draw(){
      orblist.add(new Orb((int)(Math.random()*3000 - 1500), (int)(Math.random()*3000 - 1500), (int)(Math.random()*3)));
    }   
   //spawns a few random orbs
+  Arrays.sort(orblist);
     for(int x = 0; x < orblist.size(); x++){
       Orb a = orblist.get(x);
       a.turn(orblist, player);
