@@ -12,7 +12,7 @@ public void setup() {
   score = 0;
   orblist = new ArrayList<Orb>();
   orblist.add(player);
-  for(int x = 0; x < 150; x++){
+  for(int x = 0; x < 400; x++){
     orblist.add(new Orb((int)(Math.random()*3000 - 1500), (int)(Math.random()*3000 - 1500), (int)(Math.random()*3)));
   }
   
@@ -41,7 +41,7 @@ public void draw(){
      orblist.add(new Orb((int)(Math.random()*3000 - 1500), (int)(Math.random()*3000 - 1500), (int)(Math.random()*3)));
    }   
   //spawns a few random orbs
-  Arrays.sort(orblist);
+  Collections.sort(orblist);
     for(int x = 0; x < orblist.size(); x++){
       Orb a = orblist.get(x);
       a.turn(orblist, player, x);
