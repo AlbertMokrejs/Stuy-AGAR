@@ -14,7 +14,7 @@ public class playerOrb extends Orb{
 //inherits a lot of methods and variables
 
 
-public void turn(ArrayList<Orb> orbs,Orb player) {
+public void turn(ArrayList<Orb> orbs,Orb player, int D) {
     for (int x = 0; x < orbs.size (); x++) {
       if(orbs.get(x) != player && dist(orbs.get(x)) < size && dist(orbs.get(x)) != 0){
         kill(orbs, x);
