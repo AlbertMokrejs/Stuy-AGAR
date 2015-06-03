@@ -30,7 +30,13 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int compareTo(Orb other) {
-    return this.getS()-other.getS();
+    double X = Math.atan(ycor/xcor);
+    if(Math.atan(other.ycor/other.xcor) > X){
+     return -1;}
+    if(Math.atan(other.ycor/other.xcor) == X){
+      return 0;
+    }
+    return 1;
   }
 
   public int dist(Orb a) {
