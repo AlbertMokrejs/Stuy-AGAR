@@ -21,6 +21,8 @@ DEV LOG:
 
 -03-06-2015: Convered O(N^2) motion algorithm to O(N) algorithm
 
+-04-06-2015: Added infinite looping for world edges
+
 =====
 
 TO DO:
