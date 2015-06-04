@@ -117,10 +117,10 @@ public class Orb implements Comparable<Orb> {
       xcor += 6000;
     }
     if (ycor > 3000) {
-      xcor -= 6000;
+      ycor -= 6000;
     }
     if (ycor < -3000) {
-      xcor += 6000;
+      ycor += 6000;
     }
   }
   
