@@ -19,6 +19,8 @@ DEV LOG:
 
 -29-05-2015: Added IDs for Orbs and PlayerOrbs, and Ledger creation ((ON NETWORKING PREALPHA))
 
+-03-06-2015: Convered O(N^2) motion algorithm to O(N) algorithm
+
 =====
 
 TO DO:
