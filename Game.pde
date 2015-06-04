@@ -1,197 +1,124 @@
-
 import java.util.*;
 
-public class Orb implements Comparable<Orb> {
-  double size; //size is the area of the orb, not the radius
-  public double xcor;
-  public double ycor;
-  public double xchange;
-  public double ychange;
-  public color C;
-  public int ID;
-  //speed not tracked but calculated when needed
+ArrayList<Orb> orblist;
+boolean alive;
+int score;
+playerOrb player;
+int currentID;
+int currentPID;
 
-  public Orb(int x, int y, int z, int id) {
-    xcor = x;
-    ycor = y;
-    size = z;
-    xchange = 0;
-    ychange = 0;
-    ID = id;
-    C = color((int)(Math.random()*205 + 50), (int)(Math.random()*205 + 50), (int)(Math.random()*205 + 50) );
+public void setup() {
+  size(1200, 800);
+  currentID = 0;
+  currentPID = 0;
+
+  alive = true;
+  player = new playerOrb(currentPID);
+  currentPID++;
+  score = 0;
+  orblist = new ArrayList<Orb>();
+  orblist.add(player);
+  for (int x = 0; x < 1500; x++) {
+    orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
+    currentID++;
   }
-
-  public String orbString() {
-    return "" + ID + " " + (int)xcor + " " + (int)ycor + " " + (int)size + " ";
-  }
-
-  public int getSpeed() {
-    double y = 6 - Math.log(getS());
-    if (y < 3) {
-      y = 3;
+  for (int y = 1; y < orblist.size (); y++) {
+    if (orblist.get(y).dist(player) < 10 && orblist.get(y) != player) {
+      orblist.remove(y);
+      y--;
     }
-    if (size == 1) {
-      y = 0;
+  }
+  stroke(255);     // Set line drawing color to white
+  frameRate(30);
+  cursor();
+}
+
+public void reID() {
+  for (int x = 0; x+1<orblist.size (); x++) {
+    if (orblist.get(x).ID+1 != orblist.get(x+1).ID && orblist.get(x).ID < 100000 && orblist.get(x).ID < 100000) {
+      orblist.get(x+1).ID = orblist.get(x).ID+1;
     }
-    return (int)y;
   }
+}
 
-  public int compareTo(Orb other) {
-    double X = Math.atan(ycor/xcor);
-    if (Math.atan(other.ycor/other.xcor) > X) {
-      return -1;
-    }
-    if (Math.atan(other.ycor/other.xcor) == X) {
-      return 0;
-    }
-    return 1;
+public color randomColor() {
+  color c = color((int)(Math.random()*155+100), (int)(Math.random()*155+100), (int)(Math.random()*155+100) );
+  return c;
+}
+
+public String makeLedger() {
+  reID();
+  String str = "";
+  for (Orb a : orblist) {
+    str += a.orbString();
   }
+  return str;
+}
 
-  public int dist(Orb a) {
-    double x = a.getX() - xcor; //saves direction of X and Y
-    double y = a.getY() - ycor;
-    return (int)Math.sqrt(x*x + y*y);
+public void deLedger(String y){
+  orblist = new ArrayList<Orb>();
+  ArrayList<String> L = new ArrayList<String>(Arrays.asList(y.split(" ")));
+  ArrayList<Double> X = new ArrayList<Double>();
+  for(int x = 0; x < L.size(); x++){
+    X.add(Double.valueOf(L.get(x)));
   }
-
-  public void kill(ArrayList<Orb> orbs, int x) {
-    double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
-    size = y;
-    orbs.remove(x);
-  }
-
-  public color getColor() {
-    return C;
-  }
-
-  public void turn(ArrayList<Orb> orbs, Orb player, int D) {
-    ArrayList<vpoint> vect = new ArrayList<vpoint>();
-    for (int x = D; x < D+35 && x < orbs.size (); x++) {
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
-        kill(orbs, x);
-        x--;
-      } else {
-        vect.add(process(orbs.get(x)));
+  for(int x = 0; x+3 < X.size(); x++){
+    if(x % 4 == 0){
+      if(X.get(x).intValue() < 100000){
+        orblist.add(new playerOrb(X.get(x+1).intValue(),X.get(x+2).intValue(),X.get(x+3).intValue(),X.get(x).intValue()));
+      }
+      else{
+        orblist.add(new Orb(X.get(x+1).intValue(),X.get(x+2).intValue(),X.get(x+3).intValue(),X.get(x).intValue()));
       }
     }
-    for (int x = D; x > D-35 && x >= 0; x--) {
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
-        kill(orbs, x);
-        x++;
-      } else {
-        vect.add(process(orbs.get(x)));
-      }
+}
+}
+
+public void draw() {
+  if(focused){
+  background(0);
+  
+
+  color c = color(153);
+  fill(c);
+  if (Math.random() > 0.2) {
+    orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
+    currentID++;
+  }   
+  //spawns a few random orbs
+  Collections.sort(orblist);
+  for (int x = 0; x < orblist.size (); x++) {
+    Orb a = orblist.get(x);
+    a.turn(orblist, player, x);
+  }
+  for (Orb a : orblist) {
+    if(a.xcor > player.xcor-width/2 && a.xcor < player.xcor + width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2){
+      fill(a.getColor());
+      ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
     }
-    for (int y = 0; y < 35; y++) {
-      int x = (int)(Math.random()*orbs.size());
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
-        kill(orbs, x);
-      } else {
-        vect.add(process(orbs.get(x)));
-      }
+    if(player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2){
+      fill(a.getColor());
+      ellipse((float)a.getX()+6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+    } 
+    if(player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2){
+      fill(a.getColor());
+      ellipse((float)a.getX(), (float)a.getY()+6000, (float)a.getS()*2, (float)a.getS()*2);
     }
-    double xdelt = 0;
-    double ydelt = 0;
-    for (vpoint a : vect) {
-      xdelt += a.getX();
-      ydelt += a.getY();
-    }
-    double xmove = 0;
-    double ymove = 0;
-    if (xdelt == 0) {
-      xdelt = 1;
-    }
-    if (ydelt == 0) {
-      ydelt = 1;
-    }
-    if (xdelt < 0) {
-      xmove = -1 * (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
-    } else {
-      xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
-    }
-    if (ydelt < 0) {
-      ymove = -1 * Math.abs(getSpeed() - xmove);
-    } else {
-      ymove = Math.abs(getSpeed() - xmove);
-    }
-    ychange = ymove;
-    xchange = xmove;
-    xcor += xmove;
-    ycor += ymove;
-    if (xcor > 3000) {
-      xcor -= 6000;
-    }
-    if (xcor < -3000) {
-      xcor += 6000;
-    }
-    if (ycor > 3000) {
-      ycor -= 6000;
-    }
-    if (ycor < -3000) {
-      ycor += 6000;
+    if(player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2){
+      fill(a.getColor());
+      ellipse((float)a.getX()-6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+    } 
+    if(player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2){
+      fill(a.getColor());
+      ellipse((float)a.getX(), (float)a.getY()-6000, (float)a.getS()*2, (float)a.getS()*2);
     }
   }
-
-
-
-
-  public vpoint process(Orb a) {
-    double score = size - a.size;
-    if (score == 0) {
-      score = -1;
-    } //negative score negates direction
-    double x = a.getX() - xcor; //saves direction of X and Y
-    double y = a.getY() - ycor;
-    score = (int)(Math.abs(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
-    return new vpoint((int)((Math.random()*0.3 + 0.8)*score*x), (int)((Math.random()*0.3 + 0.8)*score*y));
-  }
-
-  public void setX(int a) {
-    xcor = a;
-  }
-
-  public void setY(int a) {
-    ycor = a;
-  }
-
-  public void setS(int a) {
-    size = a;
-  }
-
-  public int getS() {
-    return (int)size;
-  }
-
-  public int getX() {
-    return (int)xcor;
-  }
-
-  public int getY() {
-    return (int)ycor;
-  }
-
-  private class vpoint {
-    public int x;
-    public int y;
-
-    public vpoint(int a, int b) {
-      x = a;
-      y = b;
-    }
-
-    public void setX(int a) {
-      x = a;
-    }
-
-    public void setY(int a) {
-      y = a;
-    }
-
-    public int getX() {
-      return x;
-    }
-
-    public int getY() {
-      return y;
-    }
-  }
+  reID();
+  fill(255);
+  text("" + ((double)Math.round(player.size * 100000) / 100000), (int)player.xcor - width/2 + 50, (int)player.ycor - height/2 + 50);
+  text("" + orblist.size(), (int)player.xcor - width/2 + 50, (int)player.ycor - height/2 + 100);
+  //runs through orb array, processing each orb
+  //checks if player survived
+  //incremements score if player alive and size has increased
+}
 }
