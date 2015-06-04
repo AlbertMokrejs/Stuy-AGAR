@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Orb implements Comparable<Orb> {
@@ -36,7 +37,13 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int compareTo(Orb other) {
-    return this.getS()-other.getS();
+    double X = Math.atan(ycor/xcor);
+    if(Math.atan(other.ycor/other.xcor) > X){
+     return -1;}
+    if(Math.atan(other.ycor/other.xcor) == X){
+      return 0;
+    }
+    return 1;
   }
 
   public int dist(Orb a) {
@@ -54,15 +61,23 @@ public class Orb implements Comparable<Orb> {
   public color getColor(){
     return C;}
 
-  public void turn(ArrayList<Orb> orbs, Orb player) {
+  public void turn(ArrayList<Orb> orbs, Orb player, int D) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
-    for (int x = 0; x < orbs.size(); x++) {
+    for (int x = D; x < D+20 && x < orbs.size(); x++) {
       if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
         kill(orbs, x);
         x--;
      }
       else{
-
+      vect.add(process(orbs.get(x)));
+      }
+    }
+    for (int x = D; x > D-20 && x >= 0; x--) {
+      if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
+        kill(orbs, x);
+        x++;
+     }
+      else{
       vect.add(process(orbs.get(x)));
       }
     }
@@ -95,6 +110,18 @@ public class Orb implements Comparable<Orb> {
     xchange = xmove;
     xcor += xmove;
     ycor += ymove;
+    if (xcor > 3000) {
+      xcor -= 6000;
+    }
+    if (xcor < -3000) {
+      xcor += 6000;
+    }
+    if (ycor > 3000) {
+      xcor -= 6000;
+    }
+    if (ycor < -3000) {
+      xcor += 6000;
+    }
   }
   
 
