@@ -67,10 +67,10 @@ public class playerOrb extends Orb {
       xcor += 6000;
     }
     if (ycor > 3000) {
-      xcor -= 6000;
+      ycor -= 6000;
     }
     if (ycor < -3000) {
-      xcor += 6000;
+      ycor += 6000;
     }
     translate(-1*((float)player.xcor-width/2), -1* ((float)player.ycor-height/2));
   }
