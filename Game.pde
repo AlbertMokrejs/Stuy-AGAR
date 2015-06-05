@@ -60,8 +60,9 @@ public void draw(){
     fill(112,2,56);
     textSize(38); 
     String f = "Welcome to Agar";
-    text(f,225,250); 
-    
+    text(f,225,250);
+    rect(50,300,,20);     
+ 
   }
   
 
