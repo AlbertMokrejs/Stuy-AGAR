@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Orb implements Comparable<Orb> {
-  double size; //size is the area of the orb, not the radius
+  double size; 
   public double xcor;
   public double ycor;
   public double xchange;
@@ -24,7 +24,7 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int getSpeed() {
-    double y = 5 - Math.log(getS());
+    double y = 5 - Math.log(size);
     if (y < 2) {
       y = 1;
     }
@@ -49,7 +49,15 @@ public class Orb implements Comparable<Orb> {
     double y = a.getY() - ycor;
     return (int)Math.sqrt(x*x + y*y);
   }
-  
+  public double getS(){
+      return size;
+  }
+  public double getX(){
+      return xcor;
+  }
+  public double getY(){
+    return ycor;
+  }
   public void kill(ArrayList<Orb> orbs,int x){
     double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     size = y;
@@ -122,16 +130,23 @@ public class Orb implements Comparable<Orb> {
       ycor += 6000;
     }
   }
-  
 
 
-
-  public vpoint process(Orb a) {
+ public vpoint process(Orb a) {
     double score = size - a.getS(); //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
     score = (int)(Math.log(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
     return new vpoint((int)(score*x), (int)(score*y));
+  }
+private class vpoint{  
+  double ycor;
+  double xcor;
+  double size;
+  
+  public vpoint(int x, int y){
+    xcor = x;
+    ycor = y;
   }
 
   public void setX(int a) {
@@ -157,33 +172,9 @@ public class Orb implements Comparable<Orb> {
   public int getY() {
     return (int)ycor;
   }
-  
-  private class vpoint{
-  public int x;
-  public int y;
+} 
 
-  public vpoint(int a, int b) {
-    x = a;
-    y = b;
-  }
-
-  public void setX(int a) {
-    x = a;
-  }
-
-  public void setY(int a) {
-    y = a;
-  }
-
-  public int getX() {
-    return x;
-  }
-
-  public int getY() {
-    return y;
-  }
 }
-  
-  
-}
+
+ }
 

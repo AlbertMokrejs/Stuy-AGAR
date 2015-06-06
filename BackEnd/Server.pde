@@ -50,7 +50,7 @@ public class Server {
 
     while ((inputLine = in.readLine()) != null) { // This is essentially a loop that will run everytime input line gets something new from the server
         out.println(inputLine); // Because this is an echo program we will just give back to the client anything that is given to us by the client
-        rect(50,50,50,50);
+        
     }
     socket.close(); // If we are out of the loop we will close all of our streams
     out.close();

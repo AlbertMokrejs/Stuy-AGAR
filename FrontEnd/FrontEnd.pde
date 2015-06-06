@@ -1,7 +1,6 @@
 import java.util.*;
-int what = 0;
+int what = 1;
 Client a;
-Orb x;
 public void setup() {
   size(100,100);
   a = new Client();
