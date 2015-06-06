@@ -28,7 +28,7 @@ public class Client {
            
     out.println(input); // Else, just give the data to the server
     try {
-       System.out.println("Server: " + in.readLine()); // Then read what the server responded with
+       in.readLine()); // Then read what the server responded with
     }
     catch (IOException e) {
       e.printStackTrace(); // Exception handling

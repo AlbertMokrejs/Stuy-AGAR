@@ -10,13 +10,12 @@ public class Orb implements Comparable<Orb> {
   public int ID;
   //speed not tracked but calculated when needed
 
-  public Orb(int x,int y,int z,int id){
+  public Orb(int x,int y,int z){
     xcor = x;
     ycor = y;
     size = z;
     xchange = 0;
     ychange = 0;
-    ID = id;
     C = color((int)(Math.random()*155 + 100),(int)(Math.random()*155 + 100) ,(int)(Math.random()*155 + 100) );
   }
   
@@ -51,34 +50,47 @@ public class Orb implements Comparable<Orb> {
     return (int)Math.sqrt(x*x + y*y);
   }
   
-  public void kill(ArrayList<Orb> orbs,int x){
-    double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
+  public void kill(ArrayList<ClientHandlingThreads> orbs,int x){
+    double y = Math.sqrt(size*size + orbs.get(x).O.getS()*orbs.get(x).O.getS());
     size = y;
-    orbs.remove(x);
+    orbs.get(x).out.println;
   }
   
   public color getColor(){
-    return C;}
+    return C;'
+  }
 
-  public void turn(ArrayList<Orb> orbs, Orb player, int D) {
-    ArrayList<vpoint> vect = new ArrayList<vpoint>();
+
+
+
+  public void turn(ArrayList<ClientHandlingThread> orbs, Orb player, int D) {
+
+    
+    
+    
+
+  public void turn(ArrayList<ClientHandlingThread> orbs, Orb player, int D, int x, int y) {
+
+
+
+
+
+    vect = new vpoint();
     for (int x = D; x < D+20 && x < orbs.size(); x++) {
-      if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
+      if(orbs.get(x).O != player && orbs.get(x).O != this && this.dist(orbs.get(x).O) != 0 && this.dist(orbs.get(x).O) < size && orbs.get(x).O.compareTo(this) < 1){
         kill(orbs, x);
         x--;
      }
       else{
-      vect.add(process(orbs.get(x)));
+      vect.add(process(orbs.get(x).O));
       }
     }
     for (int x = D; x > D-20 && x >= 0; x--) {
-      if(orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1){
+      if(orbs.get(x).O != player && orbs.get(x).O != this && this.dist(orbs.get(x).O) != 0 && this.dist(orbs.get(x).O) < size && orbs.get(x).O.compareTo(this) < 1){
         kill(orbs, x);
         x++;
-     }
-      else{
-      vect.add(process(orbs.get(x)));
       }
+      
     }
     double xdelt = 0;
     double ydelt = 0;

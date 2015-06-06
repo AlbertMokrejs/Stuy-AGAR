@@ -8,10 +8,7 @@ public class Server {
 
     public void runServer() {
   ServerSocket socket = null; // This is the socket that will hold the socket for the server
-  ArrayList<ClientHandlingThread> threads = new ArrayList<ClientHandlingThread>(); // This is an array list containing all of the threads for handling the clients
-  // Note:  I never actually use this arraylist for anything but I am creating it in case you need it in your progams, also note I never remove anything from this ArrayList
-  // even if the thread is 'dead'
-
+  ArrayList<ClientHandlingThread> threads = new ArrayList<ClientHandlingThread>(); 
   try {
       socket = new ServerSocket(23456); // This intantiates the socket
   }
@@ -26,7 +23,10 @@ public class Server {
     ClientHandlingThread c = new ClientHandlingThread(client); // This creates a thread to deal with this client
     c.start(); // This starts the thread
     threads.add(c); // This adds the thread to the array list
-      }
+    c.O = new Orb((int)(Math.random()*3000),(int)(Math.random()*3000,2)
+    
+ 
+    }
       catch (IOException e) {
     e.printStackTrace(); // Exception handling
       }
@@ -35,7 +35,7 @@ public class Server {
 
     private class ClientHandlingThread extends Thread { // This is the handling thread
   private Socket socket = null; // This is the socket that is passed in.
-  private Orb orb;
+  public Orb O;
   public ClientHandlingThread(Socket s) { // Very simple constructor
       super("Server Thread");
       this.socket = s;
@@ -49,7 +49,12 @@ public class Server {
     String inputLine; // This will be the input from the server
 
     while ((inputLine = in.readLine()) != null) { // This is essentially a loop that will run everytime input line gets something new from the server
-        out.println(inputLine); // Because this is an echo program we will just give back to the client anything that is given to us by the client
+        
+        
+        
+        
+        out.println(interpret(inputLine)); 
+        
         
     }
     socket.close(); // If we are out of the loop we will close all of our streams
@@ -60,6 +65,15 @@ public class Server {
     e.printStackTrace(); // Exception handling
       }
   }
+    }
+    
+    public String interpret(String a){
+       int i = a.indexOf(" ");
+       int x = Integer.parseInt(a.substring(0,i+1));
+       int y = Integer.paresInt(a.substring(i+1,a.length()));
+       
+ 
+      
     }
 }
 
