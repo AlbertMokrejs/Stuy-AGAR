@@ -20,7 +20,7 @@ public class Server {
   }
 
   Socket client = null; // This will be a client socket if it has been accepted
-  while (1 == 1) { // The infinite loop dealing with accepting clients and starting the threads
+  while (true) { // The infinite loop dealing with accepting clients and starting the threads
       try {
     client = socket.accept(); // This essentially accepts a connection from a client
     ClientHandlingThread c = new ClientHandlingThread(client); // This creates a thread to deal with this client
@@ -35,7 +35,7 @@ public class Server {
 
     private class ClientHandlingThread extends Thread { // This is the handling thread
   private Socket socket = null; // This is the socket that is passed in.
-
+  private Orb orb;
   public ClientHandlingThread(Socket s) { // Very simple constructor
       super("Server Thread");
       this.socket = s;
@@ -50,9 +50,7 @@ public class Server {
 
     while ((inputLine = in.readLine()) != null) { // This is essentially a loop that will run everytime input line gets something new from the server
         out.println(inputLine); // Because this is an echo program we will just give back to the client anything that is given to us by the client
-        if (inputLine.equals("Bye")) { // If the client gives us 'bye' we will break out of this loop
-      break;
-        }
+        rect(50,50,50,50);
     }
     socket.close(); // If we are out of the loop we will close all of our streams
     out.close();

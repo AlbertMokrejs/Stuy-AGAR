@@ -24,17 +24,10 @@ public class Client {
   catch (IOException e) {
       e.printStackTrace(); // Excpetion handling
       return false;
-  }
+  }      
 
-  
-  while ((input = console.nextLine()) != null) { // Another loop that will run whenever the user presses enter
-      if (input.equals("bye")) { // If the user enters bye we want to quit
-    out.println("bye"); // Send bye to the server telling it to close our thread
-    break; // Breaks out of the loop
-      }
-      else {
     out.println(input); // Else, just give the data to the server
-      }
+    
       try {
     System.out.println("Server: " + in.readLine()); // Then read what the server responded with
       }
