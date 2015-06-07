@@ -3,11 +3,11 @@ import java.util.*;
 public class playerOrb extends Orb {
 
   public playerOrb(int x) {
-    super(width/2, height/2, 10, 100000+x);
+    super(width/2, height/2, 4, 100000+x);
   }
-  
-  public playerOrb(int x,int y,int z,int id){
-    super(x,y,z,id);
+
+  public playerOrb(int x, int y, int z, int id) {
+    super(x, y, z, id);
   }
 
   public void kill(ArrayList<Orb> orbs, int x) {
@@ -20,7 +20,7 @@ public class playerOrb extends Orb {
 
   public void turn(ArrayList<Orb> orbs, Orb player, int D) {
     for (int x = 0; x < orbs.size (); x++) {
-      if (orbs.get(x) != player && dist(orbs.get(x)) < size && dist(orbs.get(x)) != 0) {
+      if (orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).size - this.size < 0) {
         kill(orbs, x);
         x--;
       }
