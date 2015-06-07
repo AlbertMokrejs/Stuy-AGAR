@@ -33,7 +33,7 @@ public class Orb implements Comparable<Orb> {
     if (size == 1) {
       y = 0;
     }
-    return (int)y;
+    return (int)((Math.random()*0.4 + 0.8)*y);
   }
 
   public int compareTo(Orb other) {
@@ -53,7 +53,7 @@ public class Orb implements Comparable<Orb> {
     return (int)Math.sqrt(x*x + y*y);
   }
 
-  public void kill(ArrayList<Orb> orbs, int x) {
+  public void kill(ArrayList<Orb> orbs, int x){
     double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     size = y;
     orbs.remove(x);
@@ -66,7 +66,7 @@ public class Orb implements Comparable<Orb> {
   public void turn(ArrayList<Orb> orbs, Orb player, int D) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
     for (int x = D; x < D+35 && x < orbs.size (); x++) {
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
+      if (orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).size - this.size < 0) {
         kill(orbs, x);
         x--;
       } else {
@@ -142,7 +142,7 @@ public class Orb implements Comparable<Orb> {
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
     score = (int)(Math.abs(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
-    return new vpoint((int)((Math.random()*0.3 + 0.8)*score*x), (int)((Math.random()*0.3 + 0.8)*score*y));
+    return new vpoint((int)((Math.random()*0.05 + 0.97)*score*x), (int)((Math.random()*0.05 + 0.97)*score*y));
   }
 
   public void setX(int a) {
