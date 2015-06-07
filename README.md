@@ -23,11 +23,13 @@ DEV LOG:
 
 -04-06-2015: Added infinite looping for world edges
 
+-06-06-2015: Failed attempt at networking (agian)
+
+-07-06-2015: STABLE VERSION 2, featuring menus, score keeping, pause feature.
+
 =====
 
 TO DO:
-
--Graphic Design
 
 -Networking
 
