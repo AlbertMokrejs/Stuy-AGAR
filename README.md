@@ -1,7 +1,7 @@
 # Stuy-AGAR
 StuyCS Agar Remake (Single Player)
 
-TEAM: AGAR.STUYO 
+TEAM: Networking Sux 
 
 =====
 
