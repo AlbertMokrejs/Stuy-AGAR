@@ -10,6 +10,16 @@ int menu;
 
 public void setup() {
   size(1200, 800);
+  setupHelp();
+}
+
+void keyPressed() {
+  if (key == 82) {
+    setupHelp();
+  }
+}
+
+public void setupHelp(){
   currentID = 0;
   currentPID = 0;
   menu = 2;
@@ -88,7 +98,7 @@ public void displayDead() {
   textSize(38); 
   String f = "You were eaten by a predator, RIP. \nThis was your score: " + score;
   text(f, 225, 250);
-  String x = "\nCare to try again, fighting against the futile nature of this world?";
+  String x = "\nCare to try again, fighting against the futile nature of this world? \n\nR to Restart\nShift needed to prevent accidental resets";
   textSize(15);
   text(x, 225, 400);
   //rect(50, 300, 20);
