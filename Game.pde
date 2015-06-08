@@ -1,5 +1,9 @@
 import java.util.*;
+import ddf.minim.*;
 
+//CODE FOR AUDIO BORROWED FROM STACK OVERFLOW
+AudioPlayer MusicBox;
+Minim minim;//audio context
 ArrayList<Orb> orblist;
 boolean alive;
 int score;
@@ -19,7 +23,17 @@ void keyPressed() {
   }
 }
 
-public void setupHelp(){
+void stop()
+{
+  MusicBox.close();
+  minim.stop();
+  super.stop();
+}
+
+public void setupHelp() {
+  minim = new Minim(this);
+  MusicBox = minim.loadFile("file.mp3", 2048);
+  MusicBox.play();
   currentID = 0;
   currentPID = 0;
   menu = 2;
@@ -113,6 +127,10 @@ public void mouseClicked() {
 
 public void draw() {
   background(#3D0067);
+  if (MusicBox.isPlaying()==false) {
+    MusicBox.rewind(); 
+    MusicBox.play();
+  }
   if (alive) {
     if (focused) {
       if (menu == 2) {
