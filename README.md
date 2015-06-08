@@ -27,7 +27,7 @@ DEV LOG:
 
 -07-06-2015: STABLE VERSION 2, featuring menus, score keeping, pause feature.
 
--08-06-2015: Added option to restart game without restarting sketch. 
+-08-06-2015: Added option to restart game without restarting sketch, Added looping background music.
 
 =====
 
@@ -36,3 +36,11 @@ TO DO:
 -Networking
 
 -Viruses
+
+=====
+
+Acknowledgements: 
+
+-MSPaintAdventure for their ownership of Courtroom Shuffle
+
+-Processing and Stack Overflow for advice for running sound
