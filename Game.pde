@@ -19,6 +19,8 @@ public void setup() {
 
 void keyPressed() {
   if (key == 82) {
+    MusicBox.close();
+  minim.stop();
     setupHelp();
   }
 }
