@@ -29,6 +29,8 @@ DEV LOG:
 
 -08-06-2015: Added option to restart game without restarting sketch, Added looping background music.
 
+-10-06-2015: Fixed bug with music player not restarting properly, fixed collision detection bug. 
+
 =====
 
 TO DO:
