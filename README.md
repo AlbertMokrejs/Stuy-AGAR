@@ -46,3 +46,11 @@ Acknowledgements:
 -MSPaintAdventure for their ownership of Courtroom Shuffle
 
 -Processing and Stack Overflow for advice for running sound
+
+=====
+
+Use Instructions:
+
+While currently not structured as a sketch, on deadline day the file will be and thus will open normally. It is fine to replace the file.mp3 file with any other file of the same name to change the music.
+
+Mouse controls control your motion and Shift+R is used to restart the game. The game may require larger memory depending on how long you play. ((I have had no memory issues within 10 minutes of play, but it is possible longer / more extreme sessions may use up more memory.))
