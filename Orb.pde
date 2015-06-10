@@ -25,7 +25,7 @@ public class Orb implements Comparable<Orb> {
     return "" + ID + " " + (int)xcor + " " + (int)ycor + " " + (int)size + " ";
   }
 
-  public int getSpeed() {
+  public int getSpeed() { //this function deals drugs
     double y = 6 - Math.log(getS());
     if (y < 3) {
       y = 3;
@@ -37,11 +37,11 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int compareTo(Orb other) {
-    double X = Math.atan(ycor/xcor);
-    if (Math.atan(other.ycor/other.xcor) > X) {
+    double X = Math.atan2(ycor,xcor-4500);
+    if (Math.atan2(other.ycor,other.xcor-4500) > X) {
       return -1;
     }
-    if (Math.atan(other.ycor/other.xcor) == X) {
+    if (Math.atan2(other.ycor,other.xcor-4500) == X) {
       return 0;
     }
     return 1;
