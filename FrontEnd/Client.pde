@@ -6,7 +6,7 @@ public class Client {
     private final String serverAddress = "127.0.0.1"; // IP of the server to connect to
     private final int port = 23456; // Port of the server to connect to, pick an unused port, a high one is usually unused, note, this has to be below 65535
 
-   public boolean runClient(String input) { // This is the 'main' function of this client -- to be called by the ClientRun class
+   public String runClient(String input) { // This is the 'main' function of this client -- to be called by the ClientRun class
     Socket serverSocket = null; // Sets up the socket, out and in variables
     PrintWriter out = null;
     BufferedReader in = null;
@@ -25,22 +25,22 @@ public class Client {
         return false;
     }
   
-           
+      try{     
     out.println(input); // Else, just give the data to the server
-    try {
-       in.readLine()); // Then read what the server responded with
-    }
+    
+       return interpret(in.readline()); // Then read what the server responded with
+      }
+  
     catch (IOException e) {
       e.printStackTrace(); // Exception handling
     }
-      System.out.print("input: "); // For the loop
     
-  
-
+  return "DEADBEEF";
+      
      
     
    
-    return true;
+    
    }
 
-
+  

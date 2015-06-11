@@ -34,6 +34,10 @@ public class Orb implements Comparable<Orb> {
     return (int)y;
   }
 
+  
+    
+    
+  }
   public int compareTo(Orb other) {
     double X = Math.atan(ycor/xcor);
     if(Math.atan(other.ycor/other.xcor) > X){
@@ -62,89 +66,6 @@ public class Orb implements Comparable<Orb> {
 
 
 
-
-  public void turn(ArrayList<ClientHandlingThread> orbs, Orb player, int D) {
-
-    
-    
-    
-
-  public void turn(ArrayList<ClientHandlingThread> orbs, Orb player, int D, int x, int y) {
-
-
-
-
-
-    vect = new vpoint();
-    for (int x = D; x < D+20 && x < orbs.size(); x++) {
-      if(orbs.get(x).O != player && orbs.get(x).O != this && this.dist(orbs.get(x).O) != 0 && this.dist(orbs.get(x).O) < size && orbs.get(x).O.compareTo(this) < 1){
-        kill(orbs, x);
-        x--;
-     }
-      else{
-      vect.add(process(orbs.get(x).O));
-      }
-    }
-    for (int x = D; x > D-20 && x >= 0; x--) {
-      if(orbs.get(x).O != player && orbs.get(x).O != this && this.dist(orbs.get(x).O) != 0 && this.dist(orbs.get(x).O) < size && orbs.get(x).O.compareTo(this) < 1){
-        kill(orbs, x);
-        x++;
-      }
-      
-    }
-    double xdelt = 0;
-    double ydelt = 0;
-    for(vpoint a: vect){
-      xdelt += a.getX();
-      ydelt += a.getY();
-    }
-    double xmove = 0;
-    double ymove = 0;
-    if(xdelt == 0){
-      xdelt = 1;
-    }
-    if(ydelt == 0){
-      ydelt = 1;}
-    if(xdelt < 0){
-      xmove = -1 * (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
-    }
-    else{
-      xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
-    }
-    if(ydelt < 0){
-      ymove = -1 * Math.abs(getSpeed() - xmove);
-    }
-    else{
-      ymove = Math.abs(getSpeed() - xmove);
-    }
-    ychange = ymove;
-    xchange = xmove;
-    xcor += xmove;
-    ycor += ymove;
-    if (xcor > 3000) {
-      xcor -= 6000;
-    }
-    if (xcor < -3000) {
-      xcor += 6000;
-    }
-    if (ycor > 3000) {
-      ycor -= 6000;
-    }
-    if (ycor < -3000) {
-      ycor += 6000;
-    }
-  }
-  
-
-
-
-  public vpoint process(Orb a) {
-    double score = size - a.getS(); //negative score negates direction
-    double x = a.getX() - xcor; //saves direction of X and Y
-    double y = a.getY() - ycor;
-    score = (int)(Math.log(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
-    return new vpoint((int)(score*x), (int)(score*y));
-  }
 
   public void setX(int a) {
     xcor = a;

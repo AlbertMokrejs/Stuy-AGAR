@@ -34,12 +34,17 @@ public class Server {
     }
 
     private class ClientHandlingThread extends Thread { // This is the handling thread
-  private Socket socket = null; // This is the socket that is passed in.
-  public Orb O;
-  public ClientHandlingThread(Socket s) { // Very simple constructor
-      super("Server Thread");
-      this.socket = s;
-  }
+      
+      private Socket socket = null; // This is the socket that is passed in.
+  
+      public Orb O;
+      
+      public ClientHandlingThread(Socket s) { // Very simple constructor      
+          super("Server Thread");      
+          this.socket = s;
+       }
+        
+    }
 
   public void run() {
       try {
@@ -67,11 +72,16 @@ public class Server {
   }
     }
     
+    public String createString(){
+    }
     public String interpret(String a){
+       
        int i = a.indexOf(" ");
        int x = Integer.parseInt(a.substring(0,i+1));
-       int y = Integer.paresInt(a.substring(i+1,a.length()));
-       
+       int y = Integer.parseInt(a.substring(i+1,a.length()));
+       //if alive run game
+       //if dead return to menu
+         
  
       
     }
