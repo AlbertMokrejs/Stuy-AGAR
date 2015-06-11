@@ -25,7 +25,7 @@ public class Orb implements Comparable<Orb> {
     return "" + ID + " " + (int)xcor + " " + (int)ycor + " " + (int)size + " ";
   }
 
-  public double getSpeed() { //this function deals drugs
+  public double getSpeed() {
     double y = 8 - Math.log(getS());
     if (y < 3) {
       y = 3;
@@ -37,20 +37,13 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int compareTo(Orb other) {
-    double X = Math.atan2(ycor-4500,xcor-4500);
-    if (Math.atan2(other.ycor-4500,other.xcor-4500) > X) {
-      return -1;
-    }
-    if (Math.atan2(other.ycor-4500,other.xcor-4500) == X) {
-      return 0;
-    }
-    return 1;
+   return Double.compare(Math.atan2(ycor-4500, xcor-4500), Math.atan2(other.ycor-4500, other.xcor-4500));
   }
 
-  public int dist(Orb a) {
+  public double dist(Orb a) {
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
-    return (int)Math.sqrt(x*x + y*y);
+    return Math.sqrt(x*x + y*y);
   }
 
   public void kill(ArrayList<Orb> orbs, int x){
@@ -65,23 +58,24 @@ public class Orb implements Comparable<Orb> {
 
   public ArrayList<vpoint> makeVect(ArrayList<Orb> orbs, Orb player, int D) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
-    for (int x = D; x < D+35 && x < orbs.size (); x++) {
-      if (orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).size - this.size < 0) {
-        kill(orbs, x);
+    for (int x = D; x < D+35; x++) {
+      if (orbs.get(x%orbs.size()) != this && this.dist(orbs.get(x%orbs.size())) < size && orbs.get(x%orbs.size()).size - this.size < 0) {
+        kill(orbs, x%orbs.size());
         x--;
       } else {
-        vect.add(process(orbs.get(x)));
+        vect.add(process(orbs.get(x%orbs.size())));
       }
     }
-    for (int x = D; x > D-35 && x >= 0; x--) {
+    for (int z = D; z > D-35; z--) {
+      int x = (z+orbs.size())%orbs.size();
       if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
         kill(orbs, x);
-        x++;
+        z++;
       } else {
         vect.add(process(orbs.get(x)));
       }
     }
-    for (int y = 0; y < 35; y++) {
+    for (int y = 0; y < 70; y++) {
       int x = (int)(Math.random()*orbs.size());
       if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
         kill(orbs, x);
@@ -103,10 +97,18 @@ public class Orb implements Comparable<Orb> {
     double xmove = 0;
     double ymove = 0;
     if (xdelt == 0) {
-      xdelt = 1;
+      if (Math.random() > 0.5) {
+        xdelt = 1;
+      } else {
+        xdelt = -1;
+      }
     }
-    if (ydelt == 0) {
-      ydelt = 1;
+    if(ydelt == 0){
+      if (Math.random() > 0.5) {
+        ydelt = 1;
+      } else {
+        ydelt = -1;
+      }
     }
     if (xdelt < 0) {
       xmove = -1 * (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
@@ -114,9 +116,9 @@ public class Orb implements Comparable<Orb> {
       xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     if (ydelt < 0) {
-      ymove = -1 * (getSpeed() - Math.abs(xmove));
+      ymove = -1 * Math.abs(getSpeed() - Math.abs(xmove));
     } else {
-      ymove = getSpeed() - Math.abs(xmove);
+      ymove = Math.abs(getSpeed() - Math.abs(xmove));
     }
     ychange = ymove;
     xchange = xmove;
@@ -139,14 +141,14 @@ public class Orb implements Comparable<Orb> {
 
 
 
-  public vpoint process(Orb a) {
-    double score = size - a.size;
+public vpoint process(Orb a) {
+    double score = a.size*(size - a.size);
     if (score == 0) {
-      score = -2;
+      score = -1;
     } //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
-    score = (int)(Math.abs(score)*Math.log(Math.abs(score))*score / 5*Math.log((Math.sqrt(x*x + y*y)))); //alters intensity, somewhat arbitrary
+    score = (int)(Math.abs(score)*score / 2*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
     return new vpoint((int)((Math.random()*0.05 + 0.97)*score*x), (int)((Math.random()*0.05 + 0.97)*score*y));
   }
 
