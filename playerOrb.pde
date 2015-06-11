@@ -37,11 +37,18 @@ public class playerOrb extends Orb {
     }
     print(xcor + "\n");
     print(ycor + "\n\n");
-    if (xdelt == 0 && ydelt == 0) {
+    if (xdelt == 0) {
       if (Math.random() > 0.5) {
         xdelt = 1;
       } else {
+        xdelt = -1;
+      }
+    }
+    if(ydelt == 0){
+      if (Math.random() > 0.5) {
         ydelt = 1;
+      } else {
+        ydelt = -1;
       }
     }
     if (xdelt < 0) {
@@ -50,9 +57,9 @@ public class playerOrb extends Orb {
       xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     if (ydelt < 0) {
-      ymove = -1 * Math.abs(getSpeed() - xmove);
+      ymove = -1 * (getSpeed() - Math.abs(xmove));
     } else {
-      ymove = Math.abs(getSpeed() - xmove);
+      ymove = getSpeed() - Math.abs(xmove);
     }
     //print(xmove + "\n");
     //print(ymove + "\n\n");
