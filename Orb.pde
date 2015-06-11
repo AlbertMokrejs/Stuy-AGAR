@@ -25,7 +25,7 @@ public class Orb implements Comparable<Orb> {
     return "" + ID + " " + (int)xcor + " " + (int)ycor + " " + (int)size + " ";
   }
 
-  public int getSpeed() { //this function deals drugs
+  public double getSpeed() { //this function deals drugs
     double y = 8 - Math.log(getS());
     if (y < 3) {
       y = 3;
@@ -33,15 +33,15 @@ public class Orb implements Comparable<Orb> {
     if (size == 1) {
       y = 0;
     }
-    return (int)((Math.random()*0.4 + 0.8)*y);
+    return y;
   }
 
   public int compareTo(Orb other) {
-    double X = Math.atan2(ycor,xcor-4500);
-    if (Math.atan2(other.ycor,other.xcor-4500) > X) {
+    double X = Math.atan2(ycor-4500,xcor-4500);
+    if (Math.atan2(other.ycor-4500,other.xcor-4500) > X) {
       return -1;
     }
-    if (Math.atan2(other.ycor,other.xcor-4500) == X) {
+    if (Math.atan2(other.ycor-4500,other.xcor-4500) == X) {
       return 0;
     }
     return 1;
@@ -146,7 +146,7 @@ public class Orb implements Comparable<Orb> {
     } //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
-    score = (int)(Math.abs(score)*score*score / 5*(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
+    score = (int)(Math.abs(score)*Math.log(Math.abs(score))*score / 5*Math.log((Math.sqrt(x*x + y*y)))); //alters intensity, somewhat arbitrary
     return new vpoint((int)((Math.random()*0.05 + 0.97)*score*x), (int)((Math.random()*0.05 + 0.97)*score*y));
   }
 
