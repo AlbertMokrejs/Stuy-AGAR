@@ -1,204 +1,224 @@
-
 import java.util.*;
+import ddf.minim.*;
 
-public class Orb implements Comparable<Orb> {
-  double size; //size is the area of the orb, not the radius
-  public double xcor;
-  public double ycor;
-  public double xchange;
-  public double ychange;
-  public color C;
-  public int ID;
-  //speed not tracked but calculated when needed
+//CODE FOR AUDIO BORROWED FROM STACK OVERFLOW
+AudioPlayer MusicBox;
+Minim minim;//audio context
+ArrayList<Orb> orblist;
+boolean alive;
+int score;
+playerOrb player;
+int currentID;
+int currentPID;
+int menu;
 
-  public Orb(int x, int y, int z, int id) {
-    xcor = x;
-    ycor = y;
-    size = z;
-    xchange = 0;
-    ychange = 0;
-    ID = id;
-    C = color((int)(Math.random()*205 + 50), (int)(Math.random()*205 + 50), (int)(Math.random()*205 + 50) );
+public void setup() {
+  size(1200, 800);
+  setupHelp();
+}
+
+void keyPressed() {
+  if (key == 82) {
+    MusicBox.close();
+  minim.stop();
+    setupHelp();
   }
+}
 
-  public String orbString() {
-    return "" + ID + " " + (int)xcor + " " + (int)ycor + " " + (int)size + " ";
+void stop()
+{
+  MusicBox.close();
+  minim.stop();
+  super.stop();
+}
+
+public void setupHelp() {
+  minim = new Minim(this);
+  MusicBox = minim.loadFile("file.mp3", 2048);
+  MusicBox.play();
+  currentID = 0;
+  currentPID = 0;
+  menu = 2;
+  alive = true;
+  player = new playerOrb(currentPID);
+  currentPID++;
+  score = 0;
+  orblist = new ArrayList<Orb>();
+  orblist.add(player);
+  for (int x = 0; x < 1000; x++) {
+    orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
+    currentID++;
   }
-
-  public double getSpeed() {
-    double y = 8 - Math.log(getS());
-    if (y < 3) {
-      y = 3;
+  for (int x = 0; x < 100; x++) {
+    orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*5)+3, currentID));
+    currentID++;
+  }
+  for (int x = 0; x < 100; x++) {
+    orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*6)+4, currentID));
+    currentID++;
+  }
+  for (int y = 1; y < orblist.size (); y++) {
+    if (orblist.get(y).dist(player) < 10 && orblist.get(y) != player) {
+      orblist.remove(y);
+      y--;
     }
-    if (size == 1) {
-      y = 0;
+  }
+  stroke(0);     // Set line drawing color to white
+  frameRate(30);
+  cursor();
+}
+
+public void reID() {
+  for (int x = 0; x+1<orblist.size (); x++) {
+    if (orblist.get(x).ID+1 != orblist.get(x+1).ID && orblist.get(x).ID < 100000 && orblist.get(x).ID < 100000) {
+      orblist.get(x+1).ID = orblist.get(x).ID+1;
     }
-    return y;
   }
+}
 
-  public int compareTo(Orb other) {
-   return Double.compare(Math.atan2(ycor-4500, xcor-4500), Math.atan2(other.ycor-4500, other.xcor-4500));
+public color randomColor() {
+  color c = color((int)(Math.random()*155+100), (int)(Math.random()*155+100), (int)(Math.random()*155+100) );
+  return c;
+}
+
+public void displayStart() {
+  fill(#A2FFCD);
+  rect(50, 50, width-100, height-100, 40);
+  fill(112, 2, 56);
+  textSize(38); 
+  String f = "Welcome to Stuy-Agar: V0.9i";
+  text(f, 225, 250);
+  String x = "\nCreated By Nathan Mannes and Albert Mokrejs \n";
+  textSize(20);
+  text(x, 225, 400);
+  //rect(50, 300, 20);
+}
+
+public void displayPaused() {
+  fill(#A2FFCD);
+  rect(50, 50, width-100, height-100, 40);
+  fill(112, 2, 56);
+  textSize(38); 
+  String f = "Paused, Current Score: " + score;
+  text(f, 225, 250);
+  String x = "\nClick To Unpause!!!!";
+  textSize(20);
+  text(x, 225, 400);
+  //rect(50, 300, 20);
+}
+
+public void displayDead() {
+  fill(#000000);
+  rect(50, 50, width-100, height-100, 40);
+  fill(112, 2, 56);
+  textSize(38); 
+  String f = "You were eaten by a predator, RIP. \nThis was your score: " + score;
+  text(f, 225, 250);
+  String x = "\nCare to try again, fighting against the futile nature of this world? \n\nR to Restart\nShift needed to prevent accidental resets";
+  textSize(15);
+  text(x, 225, 400);
+  //rect(50, 300, 20);
+}
+
+public void mouseClicked() {
+  if (menu == 2) {
+    menu = 1;
   }
+  menu = Math.abs(menu - 1);
+}
 
-  public double dist(Orb a) {
-    double x = a.getX() - xcor; //saves direction of X and Y
-    double y = a.getY() - ycor;
-    return Math.sqrt(x*x + y*y);
+public void draw() {
+  background(#3D0067);
+  if (MusicBox.isPlaying()==false) {
+    MusicBox.rewind(); 
+    MusicBox.play();
   }
-
-  public void kill(ArrayList<Orb> orbs, int x){
-    double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
-    size = y;
-    orbs.remove(x);
-  }
-
-  public color getColor() {
-    return C;
-  }
-
-  public ArrayList<vpoint> makeVect(ArrayList<Orb> orbs, Orb player, int D) {
-    ArrayList<vpoint> vect = new ArrayList<vpoint>();
-    for (int x = D; x < D+35; x++) {
-      if (orbs.get(x%orbs.size()) != this && this.dist(orbs.get(x%orbs.size())) < size && orbs.get(x%orbs.size()).size - this.size < 0) {
-        kill(orbs, x%orbs.size());
-        x--;
+  if (alive) {
+    if (focused) {
+      if (menu == 2) {
+        displayStart();
+      } else if (menu == 1) {
+        displayPaused();
       } else {
-        vect.add(process(orbs.get(x%orbs.size())));
+        textSize(16);
+        background(0);
+        color c = color(153);
+        fill(c);
+        if (Math.random() > 0.4) {
+          orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
+          currentID++;
+        }
+        if (Math.random() > 0.85) {
+          Orb tmp = new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*5)+3, currentID);
+
+          if (tmp.dist(player) > 100) {
+            currentID++;
+            orblist.add(tmp);
+          }
+        }  
+        if (Math.random() > 0.9) {
+          Orb tmp = new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*9)+2, currentID);
+          if (tmp.dist(player) > 100) {
+            currentID++;
+            orblist.add(tmp);
+          }
+        }
+        if (Math.random() > 0.98) {
+          Orb tmp = new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*4)+8, currentID);
+          if (tmp.dist(player) > 100) {
+            currentID++;
+            orblist.add(tmp);
+          }
+        }
+        if (Math.random() > 0.995) {
+          Orb tmp= new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)player.size+3, currentID);
+          if (tmp.dist(player) > 100) {
+            currentID++;
+            orblist.add(tmp);
+          }
+        }  
+        //spawns a few random orbs
+        Collections.sort(orblist);
+        for (int x = 0; x < orblist.size (); x++) {
+          Orb a = orblist.get(x);
+          a.turn(orblist, player, x);
+        }
+        for (Orb a : orblist) {
+          if (a.xcor > player.xcor-width/2 && a.xcor < player.xcor + width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+            fill(a.getColor());
+            ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+          }
+          if (player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+            fill(a.getColor());
+            ellipse((float)a.getX()+6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+          } 
+          if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+            fill(a.getColor());
+            ellipse((float)a.getX(), (float)a.getY()+6000, (float)a.getS()*2, (float)a.getS()*2);
+          }
+          if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+            fill(a.getColor());
+            ellipse((float)a.getX()-6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+          } 
+          if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+            fill(a.getColor());
+            ellipse((float)a.getX(), (float)a.getY()-6000, (float)a.getS()*2, (float)a.getS()*2);
+          }
+        }
+        reID();
+        fill(255);
+        text("Your Score: " + ((double)Math.round(player.size * 100000) / 100000), (int)player.xcor - width/2 + 50, (int)player.ycor - height/2 + 50);
+        score = (int)((double)Math.round(player.size * 100000) / 100000);
+        text("Orbs Other Than You: " + (orblist.size() - 1), (int)player.xcor - width/2 + 50, (int)player.ycor - height/2 + 100);
+        alive = orblist.contains(player);
+        //runs through orb array, processing each orb
+        //checks if player survived
+        //incremements score if player alive and size has increased
       }
-    }
-    for (int z = D; z > D-35; z--) {
-      int x = (z+orbs.size())%orbs.size();
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
-        kill(orbs, x);
-        z++;
-      } else {
-        vect.add(process(orbs.get(x)));
-      }
-    }
-    for (int y = 0; y < 70; y++) {
-      int x = (int)(Math.random()*orbs.size());
-      if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
-        kill(orbs, x);
-      } else {
-        vect.add(process(orbs.get(x)));
-      }
-    }
-    return vect;
-  }
-    
-   public void turn(ArrayList<Orb> orbs, Orb player, int D){
-    ArrayList<vpoint> vect = makeVect(orbs, player, D);
-    double xdelt = 0;
-    double ydelt = 0;
-    for (vpoint a : vect) {
-      xdelt += a.getX();
-      ydelt += a.getY();
-    }
-    double xmove = 0;
-    double ymove = 0;
-    if (xdelt == 0) {
-      if (Math.random() > 0.5) {
-        xdelt = 1;
-      } else {
-        xdelt = -1;
-      }
-    }
-    if(ydelt == 0){
-      if (Math.random() > 0.5) {
-        ydelt = 1;
-      } else {
-        ydelt = -1;
-      }
-    }
-    if (xdelt < 0) {
-      xmove = -1 * (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     } else {
-      xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
+      displayPaused();
     }
-    if (ydelt < 0) {
-      ymove = -1 * Math.abs(getSpeed() - Math.abs(xmove));
-    } else {
-      ymove = Math.abs(getSpeed() - Math.abs(xmove));
-    }
-    ychange = ymove;
-    xchange = xmove;
-    xcor += xmove;
-    ycor += ymove;
-    if (xcor > 3000) {
-      xcor -= 6000;
-    }
-    if (xcor < -3000) {
-      xcor += 6000;
-    }
-    if (ycor > 3000) {
-      ycor -= 6000;
-    }
-    if (ycor < -3000) {
-      ycor += 6000;
-    }
-  }
-
-
-
-
-public vpoint process(Orb a) {
-    double score = a.size*(size - a.size);
-    if (score == 0) {
-      score = -1;
-    } //negative score negates direction
-    double x = a.getX() - xcor; //saves direction of X and Y
-    double y = a.getY() - ycor;
-    score = (int)(Math.abs(score)*score / 2*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
-    return new vpoint((int)((Math.random()*0.05 + 0.97)*score*x), (int)((Math.random()*0.05 + 0.97)*score*y));
-  }
-
-  public void setX(int a) {
-    xcor = a;
-  }
-
-  public void setY(int a) {
-    ycor = a;
-  }
-
-  public void setS(int a) {
-    size = a;
-  }
-
-  public int getS() {
-    return (int)size;
-  }
-
-  public int getX() {
-    return (int)xcor;
-  }
-
-  public int getY() {
-    return (int)ycor;
-  }
-
-  private class vpoint {
-    public int x;
-    public int y;
-
-    public vpoint(int a, int b) {
-      x = a;
-      y = b;
-    }
-
-    public void setX(int a) {
-      x = a;
-    }
-
-    public void setY(int a) {
-      y = a;
-    }
-
-    public int getX() {
-      return x;
-    }
-
-    public int getY() {
-      return y;
-    }
+  } else {
+    displayDead();
   }
 }
