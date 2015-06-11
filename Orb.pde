@@ -26,7 +26,7 @@ public class Orb implements Comparable<Orb> {
   }
 
   public int getSpeed() { //this function deals drugs
-    double y = 6 - Math.log(getS());
+    double y = 8 - Math.log(getS());
     if (y < 3) {
       y = 3;
     }
@@ -109,9 +109,9 @@ public class Orb implements Comparable<Orb> {
       xmove = (getSpeed() * Math.sqrt(xdelt*xdelt / (xdelt*xdelt + ydelt*ydelt)));
     }
     if (ydelt < 0) {
-      ymove = -1 * Math.abs(getSpeed() - xmove);
+      ymove = -1 * (getSpeed() - Math.abs(xmove));
     } else {
-      ymove = Math.abs(getSpeed() - xmove);
+      ymove = getSpeed() - Math.abs(xmove);
     }
     ychange = ymove;
     xchange = xmove;
