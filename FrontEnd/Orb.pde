@@ -1,30 +1,32 @@
 import java.util.*;
 
 public class Orb implements Comparable<Orb> {
-  double size; 
+  double size; //size is the area of the orb, not the radius
   public double xcor;
   public double ycor;
   public double xchange;
   public double ychange;
-  public color C;
+  public int R,G,B;
   public int ID;
-  //speed not tracked but calculated when needed
 
-  public Orb(int x,int y,int z){
+  public Orb(int x,int y,int z,int id){
     xcor = x;
     ycor = y;
     size = z;
     xchange = 0;
     ychange = 0;
-    C = color((int)(Math.random()*155 + 100),(int)(Math.random()*155 + 100) ,(int)(Math.random()*155 + 100) );
+    ID = id;
+    R=(int)(Math.random()*155 + 100);
+    B=(int)(Math.random()*155 + 100);
+    G=(int)(Math.random()*155 + 100);
   }
   
   public String orbString(){
-    return (int)xcor + " " + (int)ycor + " " + (int)size + " ";
+    return ""+xcor+" "+ycor+" "+size+" "+R+" "+G+" "+B;
   }
 
   public int getSpeed() {
-    double y = 5 - Math.log(size);
+    double y = 5 - Math.log(getS());
     if (y < 2) {
       y = 1;
     }
@@ -49,24 +51,13 @@ public class Orb implements Comparable<Orb> {
     double y = a.getY() - ycor;
     return (int)Math.sqrt(x*x + y*y);
   }
-  public double getS(){
-      return size;
-  }
-  public double getX(){
-      return xcor;
-  }
-  public double getY(){
-    return ycor;
-  }
+  
   public void kill(ArrayList<Orb> orbs,int x){
     double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     size = y;
     orbs.remove(x);
   }
-  
-  public color getColor(){
-    return C;
-  }
+ 
 
   public void turn(ArrayList<Orb> orbs, Orb player, int D) {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
@@ -130,23 +121,16 @@ public class Orb implements Comparable<Orb> {
       ycor += 6000;
     }
   }
+  
 
 
- public vpoint process(Orb a) {
+
+  public vpoint process(Orb a) {
     double score = size - a.getS(); //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
     score = (int)(Math.log(score)*score / 5*Math.log(Math.sqrt(x*x + y*y))); //alters intensity, somewhat arbitrary
     return new vpoint((int)(score*x), (int)(score*y));
-  }
-private class vpoint{  
-  double ycor;
-  double xcor;
-  double size;
-  
-  public vpoint(int x, int y){
-    xcor = x;
-    ycor = y;
   }
 
   public void setX(int a) {
@@ -172,9 +156,33 @@ private class vpoint{
   public int getY() {
     return (int)ycor;
   }
-} 
+  
+  private class vpoint{
+  public int x;
+  public int y;
 
+  public vpoint(int a, int b) {
+    x = a;
+    y = b;
+  }
+
+  public void setX(int a) {
+    x = a;
+  }
+
+  public void setY(int a) {
+    y = a;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
+  }
 }
-
- }
+  
+  
+}
 
