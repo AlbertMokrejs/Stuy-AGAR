@@ -192,6 +192,7 @@ public void draw() {
           Orb a = orblist.get(x);
           a.turn(orblist, player, x);
         }
+        massMotion();
         for (Orb a : orblist) {
 
           if (a.virus) {
@@ -279,7 +280,7 @@ public void draw() {
 public void massMotion() {
   for (Mass M : MassList) {
     fill(M.getColor());
-    ellipse((float)(width/2+-1*(M.xcor-player.xcor)),(float)(height/2+-1*(M.ycor-player.ycor)), (float)M.getS()*2, (float)M.getS()*2);
+    ellipse((float)(width/2+(M.xcor-player.xcor)),(float)(height/2+(M.ycor-player.ycor)), (float)M.getS()*2, (float)M.getS()*2);
   }
 }
 
