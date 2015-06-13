@@ -88,7 +88,7 @@ public void displayStart() {
   textSize(38); 
   String f = "Welcome to Stuy-Agar: V0.9i";
   text(f, 225, 250);
-  String x = "\nCreated By Nathan Mannes and Albert Mokrejs \n";
+  String x = "The white squares will kill you if they are smaller than you.\n\nCreated By Nathan Mannes and Albert Mokrejs \n";
   textSize(20);
   text(x, 225, 400);
   //rect(50, 300, 20);
@@ -148,6 +148,10 @@ public void draw() {
           orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
           currentID++;
         }
+        if (Math.random() > 0.75) {
+          orblist.add(new Virus((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*20)+2, currentID));
+          currentID++;
+        }
         if (Math.random() > 0.85) {
           Orb tmp = new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*5)+3, currentID);
 
@@ -184,6 +188,48 @@ public void draw() {
           a.turn(orblist, player, x);
         }
         for (Orb a : orblist) {
+          if(a.virus){
+            fill(a.getColor());
+            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+            if (player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+            fill(a.getColor());
+            rect((float)(a.xcor - a.size/2 +6000),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
+            rect((float)(a.xcor - a.size/2 -2 +6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2 +6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2 -2 +6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2 +6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+          } 
+          if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+            fill(a.getColor());
+            
+            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2 +6000),(float)a.size,(float)a.size);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1 +6000),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1 +6000),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 +6000),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 +6000),(float)4,(float)4);
+          }
+          if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+            fill(a.getColor());
+            rect((float)(a.xcor - a.size/2 -6000),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
+            rect((float)(a.xcor - a.size/2 -2 -6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2 -6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2 -2 -6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2 -6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+          } 
+          if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+            fill(a.getColor());
+            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2 -6000),(float)a.size,(float)a.size);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1 -6000),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1 -6000),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 -6000),(float)4,(float)4);
+            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 -6000),(float)4,(float)4);
+          }
+          }
+          else{
           if (a.xcor > player.xcor-width/2 && a.xcor < player.xcor + width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
             fill(a.getColor());
             ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
@@ -203,6 +249,7 @@ public void draw() {
           if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
             fill(a.getColor());
             ellipse((float)a.getX(), (float)a.getY()-6000, (float)a.getS()*2, (float)a.getS()*2);
+          }
           }
         }
         reID();
