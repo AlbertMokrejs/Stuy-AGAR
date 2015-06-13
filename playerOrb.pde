@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class playerOrb extends Orb {
-
+public boolean mass = false;
   public playerOrb(int x) {
     super(width/2, height/2, 4, 100000+x);
   }
@@ -89,5 +89,12 @@ public class playerOrb extends Orb {
       ycor += 6000;
     }
     translate(-1*((float)player.xcor-width/2), -1* ((float)player.ycor-height/2));
+  }
+  
+  
+  public Mass shootMass(){
+    
+    return new Mass(this);
+    
   }
 }

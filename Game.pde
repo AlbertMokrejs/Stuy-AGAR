@@ -5,6 +5,7 @@ import ddf.minim.*;
 AudioPlayer MusicBox;
 Minim minim;//audio context
 ArrayList<Orb> orblist;
+ArrayList<Mass> MassList;
 boolean alive;
 int score;
 playerOrb player;
@@ -20,8 +21,11 @@ public void setup() {
 void keyPressed() {
   if (key == 82) {
     MusicBox.close();
-  minim.stop();
+    minim.stop();
     setupHelp();
+  }
+  if (key == 'w'&&player.size*.85>5) {
+    MassList.add(player.shootMass());
   }
 }
 
@@ -45,6 +49,7 @@ public void setupHelp() {
   score = 0;
   orblist = new ArrayList<Orb>();
   orblist.add(player);
+  MassList=new ArrayList<Mass>();
   for (int x = 0; x < 1000; x++) {
     orblist.add(new Orb((int)(Math.random()*6000 - 3000), (int)(Math.random()*6000 - 3000), (int)(Math.random()*3), currentID));
     currentID++;
@@ -64,7 +69,7 @@ public void setupHelp() {
     }
   }
   stroke(0);     // Set line drawing color to white
-  frameRate(30);
+  frameRate(40);
   cursor();
 }
 
@@ -86,7 +91,7 @@ public void displayStart() {
   rect(50, 50, width-100, height-100, 40);
   fill(112, 2, 56);
   textSize(38); 
-  String f = "Welcome to Stuy-Agar: V0.9i";
+  String f = "Welcome to Stuy-Agar: V1.3i";
   text(f, 225, 250);
   String x = "The white squares will kill you if they are smaller than you.\n\nCreated By Nathan Mannes and Albert Mokrejs \n";
   textSize(20);
@@ -133,7 +138,7 @@ public void draw() {
     MusicBox.rewind(); 
     MusicBox.play();
   }
-  if (alive) {
+  if (alive&&player.size!=0) {
     if (focused) {
       if (menu == 2) {
         displayStart();
@@ -188,68 +193,68 @@ public void draw() {
           a.turn(orblist, player, x);
         }
         for (Orb a : orblist) {
-          if(a.virus){
+
+          if (a.virus) {
             fill(a.getColor());
-            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
+            rect((float)(a.xcor - a.size/2), (float)( a.ycor + a.size/2), (float)a.size, (float)a.size);
+            rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+            rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+            rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
+            rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
             if (player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
-            fill(a.getColor());
-            rect((float)(a.xcor - a.size/2 +6000),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
-            rect((float)(a.xcor - a.size/2 -2 +6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2 +6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor - a.size/2 -2 +6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2 +6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
-          } 
-          if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
-            fill(a.getColor());
-            
-            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2 +6000),(float)a.size,(float)a.size);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1 +6000),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1 +6000),(float)4,(float)4);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 +6000),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 +6000),(float)4,(float)4);
-          }
-          if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
-            fill(a.getColor());
-            rect((float)(a.xcor - a.size/2 -6000),(float)( a.ycor + a.size/2),(float)a.size,(float)a.size);
-            rect((float)(a.xcor - a.size/2 -2 -6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2 -6000),(float)( a.ycor + a.size/2 -1),(float)4,(float)4);
-            rect((float)(a.xcor - a.size/2 -2 -6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2 -6000),(float)( a.ycor + 1.5*a.size -1),(float)4,(float)4);
-          } 
-          if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
-            fill(a.getColor());
-            rect((float)(a.xcor - a.size/2),(float)( a.ycor + a.size/2 -6000),(float)a.size,(float)a.size);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + a.size/2 -1 -6000),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + a.size/2 -1 -6000),(float)4,(float)4);
-            rect((float)(a.xcor - a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 -6000),(float)4,(float)4);
-            rect((float)(a.xcor + a.size/2 -2),(float)( a.ycor + 1.5*a.size -1 -6000),(float)4,(float)4);
-          }
-          }
-          else{
-          if (a.xcor > player.xcor-width/2 && a.xcor < player.xcor + width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
-            fill(a.getColor());
-            ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
-          }
-          if (player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
-            fill(a.getColor());
-            ellipse((float)a.getX()+6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
-          } 
-          if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
-            fill(a.getColor());
-            ellipse((float)a.getX(), (float)a.getY()+6000, (float)a.getS()*2, (float)a.getS()*2);
-          }
-          if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
-            fill(a.getColor());
-            ellipse((float)a.getX()-6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
-          } 
-          if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
-            fill(a.getColor());
-            ellipse((float)a.getX(), (float)a.getY()-6000, (float)a.getS()*2, (float)a.getS()*2);
-          }
+              fill(a.getColor());
+              rect((float)(a.xcor - a.size/2 +6000), (float)( a.ycor + a.size/2), (float)a.size, (float)a.size);
+              rect((float)(a.xcor - a.size/2 -2 +6000), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2 +6000), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+              rect((float)(a.xcor - a.size/2 -2 +6000), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2 +6000), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
+            } 
+            if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+              fill(a.getColor());
+
+              rect((float)(a.xcor - a.size/2), (float)( a.ycor + a.size/2 +6000), (float)a.size, (float)a.size);
+              rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + a.size/2 -1 +6000), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + a.size/2 -1 +6000), (float)4, (float)4);
+              rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + 1.5*a.size -1 +6000), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + 1.5*a.size -1 +6000), (float)4, (float)4);
+            }
+            if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+              fill(a.getColor());
+              rect((float)(a.xcor - a.size/2 -6000), (float)( a.ycor + a.size/2), (float)a.size, (float)a.size);
+              rect((float)(a.xcor - a.size/2 -2 -6000), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2 -6000), (float)( a.ycor + a.size/2 -1), (float)4, (float)4);
+              rect((float)(a.xcor - a.size/2 -2 -6000), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2 -6000), (float)( a.ycor + 1.5*a.size -1), (float)4, (float)4);
+            } 
+            if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+              fill(a.getColor());
+              rect((float)(a.xcor - a.size/2), (float)( a.ycor + a.size/2 -6000), (float)a.size, (float)a.size);
+              rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + a.size/2 -1 -6000), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + a.size/2 -1 -6000), (float)4, (float)4);
+              rect((float)(a.xcor - a.size/2 -2), (float)( a.ycor + 1.5*a.size -1 -6000), (float)4, (float)4);
+              rect((float)(a.xcor + a.size/2 -2), (float)( a.ycor + 1.5*a.size -1 -6000), (float)4, (float)4);
+            }
+          } else {
+            if (a.xcor > player.xcor-width/2 && a.xcor < player.xcor + width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+              fill(a.getColor());
+              ellipse((float)a.getX(), (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+            }
+            if (player.xcor > 3000 - width/2 && a.xcor < width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+              fill(a.getColor());
+              ellipse((float)a.getX()+6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+            } 
+            if (player.ycor > 3000 - height/2 && a.ycor < height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+              fill(a.getColor());
+              ellipse((float)a.getX(), (float)a.getY()+6000, (float)a.getS()*2, (float)a.getS()*2);
+            }
+            if (player.xcor < -3000 + width/2 && a.xcor > width/2 && a.ycor > player.ycor-height/2 && a.ycor < player.ycor+height/2) {
+              fill(a.getColor());
+              ellipse((float)a.getX()-6000, (float)a.getY(), (float)a.getS()*2, (float)a.getS()*2);
+            } 
+            if (player.ycor < -3000 + height/2 && a.ycor > height/2 && a.xcor > player.xcor-width/2 && a.xcor < player.xcor+width/2) {
+              fill(a.getColor());
+              ellipse((float)a.getX(), (float)a.getY()-6000, (float)a.getS()*2, (float)a.getS()*2);
+            }
           }
         }
         reID();
@@ -269,3 +274,12 @@ public void draw() {
     displayDead();
   }
 }
+
+
+public void massMotion() {
+  for (Mass M : MassList) {
+    fill(M.getColor());
+    ellipse((float)(width/2+-1*(M.xcor-player.xcor)),(float)(height/2+-1*(M.ycor-player.ycor)), (float)M.getS()*2, (float)M.getS()*2);
+  }
+}
+

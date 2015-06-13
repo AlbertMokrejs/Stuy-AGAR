@@ -1,8 +1,9 @@
 public class Mass extends Orb {
-  vpoint vector;
+  public vpoint vector;
   public Mass(Orb parent) {
-    super(parent.xcor, parent.ycor, parent.size*.2, parent.ID);
-    parent.size=parent.size*.8;
+    super((int)parent.xcor, (int)parent.ycor, (int)(parent.size*.15), (int)parent.ID);
+    parent.size=parent.size*.85;
+    this.C=parent.C;
     double xdelt = (mouseX-width/2)*Math.abs((mouseX-width/2));
     double ydelt = (mouseY-height/2)*Math.abs((mouseY-height/2));
     if (xdelt < 36 && xdelt > -36) {
@@ -11,7 +12,11 @@ public class Mass extends Orb {
     if (ydelt < 36 && ydelt > -36) {
       ydelt = 0;
     }
-   vector = new vpoint(xdelt,ydelt);
+   vector = new vpoint((int)xdelt,(int)ydelt);
   }
+  
+  
+  
+ public boolean mass = true;
 }
 

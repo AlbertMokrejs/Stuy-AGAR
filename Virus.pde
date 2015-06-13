@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Virus extends Orb {
 
-
+  public boolean mass = false;
   public Virus(int x, int y, int z, int id) {
     super(x, y, z, id);
     virus = true;

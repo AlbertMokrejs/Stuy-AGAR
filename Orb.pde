@@ -9,6 +9,7 @@ public class Orb implements Comparable<Orb> {
   public color C;
   public int ID;
   public boolean virus;
+  public boolean mass=false;
   //speed not tracked but calculated when needed
 
   public Orb(int x, int y, int z, int id) {
@@ -195,7 +196,7 @@ public vpoint process(Orb a) {
     return (int)ycor;
   }
 
-  private class vpoint {
+  public class vpoint {
     public int x;
     public int y;
 
