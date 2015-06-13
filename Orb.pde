@@ -8,9 +8,11 @@ public class Orb implements Comparable<Orb> {
   public double ychange;
   public color C;
   public int ID;
+  public boolean virus;
   //speed not tracked but calculated when needed
 
   public Orb(int x, int y, int z, int id) {
+    virus = false;
     xcor = x;
     ycor = y;
     size = z;
@@ -45,10 +47,17 @@ public class Orb implements Comparable<Orb> {
     return Math.sqrt(x*x + y*y);
   }
 
-  public void kill(ArrayList<Orb> orbs, int x){
+   public void kill(ArrayList<Orb> orbs, int x) {
+    if(orbs.get(x).virus){
+     if( this.size > orbs.get(x).size){
+       orbs.remove(orbs.get(x));
+       orbs.remove(this);
+    }}
+    else {
     double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     size = y;
     orbs.remove(x);
+    }
   }
 
   public color getColor() {
@@ -59,8 +68,10 @@ public class Orb implements Comparable<Orb> {
     ArrayList<vpoint> vect = new ArrayList<vpoint>();
     for (int x = D; x < D+35; x++) {
       if (orbs.get(x%orbs.size()) != this && this.dist(orbs.get(x%orbs.size())) < size && orbs.get(x%orbs.size()).size - this.size < 0) {
+        if(!orbs.get(x).virus){
         kill(orbs, x%orbs.size());
         x--;
+        }
       } else {
         vect.add(process(orbs.get(x%orbs.size())));
       }
@@ -68,8 +79,10 @@ public class Orb implements Comparable<Orb> {
     for (int z = D; z > D-35; z--) {
       int x = (z+orbs.size())%orbs.size();
       if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
+        if(!orbs.get(x).virus){
         kill(orbs, x);
         z++;
+        }
       } else {
         vect.add(process(orbs.get(x)));
       }
@@ -77,7 +90,9 @@ public class Orb implements Comparable<Orb> {
     for (int y = 0; y < 70; y++) {
       int x = (int)(Math.random()*orbs.size());
       if (orbs.get(x) != player && orbs.get(x) != this && this.dist(orbs.get(x)) != 0 && this.dist(orbs.get(x)) < size && orbs.get(x).compareTo(this) < 1) {
+        if(!orbs.get(x).virus){
         kill(orbs, x);
+        }
       } else {
         vect.add(process(orbs.get(x)));
       }
@@ -87,6 +102,7 @@ public class Orb implements Comparable<Orb> {
     
    public void turn(ArrayList<Orb> orbs, Orb player, int D){
     ArrayList<vpoint> vect = makeVect(orbs, player, D);
+    vect.add(new vpoint((int)(-13*xcor*orbs.size()),(int)(-13*ycor*orbs.size())));
     double xdelt = 0;
     double ydelt = 0;
     for (vpoint a : vect) {
@@ -141,9 +157,13 @@ public class Orb implements Comparable<Orb> {
 
 
 public vpoint process(Orb a) {
-    double score = a.size*(size - a.size);
+  
+    double score = Math.sqrt(a.size)*(size - a.size);
     if (score == 0) {
-      score = -1;
+      score = Math.random()*2-1;
+    }
+    if(a.virus){
+      score = -5*size;
     } //negative score negates direction
     double x = a.getX() - xcor; //saves direction of X and Y
     double y = a.getY() - ycor;
