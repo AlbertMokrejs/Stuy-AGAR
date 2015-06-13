@@ -11,9 +11,16 @@ public class playerOrb extends Orb {
   }
 
   public void kill(ArrayList<Orb> orbs, int x) {
+    if(orbs.get(x).virus){
+     if( this.size > orbs.get(x).size){
+       orbs.remove(orbs.get(x));
+       orbs.remove(this);
+    }}
+    else {
     double y = Math.sqrt(size*size + orbs.get(x).getS()*orbs.get(x).getS());
     size = y;
     orbs.remove(x);
+    }
   }
   //inherits a lot of methods and variables
 
@@ -21,8 +28,10 @@ public class playerOrb extends Orb {
   public void turn(ArrayList<Orb> orbs, Orb player, int D) {
     for (int x = 0; x < orbs.size (); x++) {
       if (orbs.get(x) != this && this.dist(orbs.get(x)) < size && orbs.get(x).size - this.size < 0) {
-        kill(orbs, x);
-        x--;
+        if(!orbs.get(x).virus){
+          kill(orbs, x);
+          x--;
+        }
       }
     }
     double xmove;
