@@ -31,7 +31,9 @@ DEV LOG:
 
 -10-06-2015: Fixed bug with music player not restarting properly, fixed collision detection bug. 
 
--11-06-2015: Made pathfinding algorithm more aggressive, 
+-11-06-2015: Made pathfinding algorithm more aggressive.
+
+-12-06-2015: Working viruses. Change to AI to prevent excessive clustering.
 
 =====
 
@@ -55,7 +57,7 @@ LOOPING:
   Because of how Orbs keep track of their position, it is simple to have them teleport a fixed distance once they leave bounds. Orbs within a certain distance of the edge are rendered twice: once in their true location and once at the opposite end. This makes looping seamless, though one can tell because the orbs will either do their best to move toward the middle (big orbs / predators) or away from it (small orbs). This is usually only aparent if too many orbs have been allowed to spawn.
   
 RENDERING:
-  When passing through orbs, only orbs in the viewfield are drawn. This is done after centering and after the movement of all orbs, for efficiency. 
+  When passing through orbs, only orbs in the viewfield are drawn. This is done after centering and after the movement of all orbs, for efficiency. The same happens for viruses.
   
 MUSIC:
   The music player's function is mostly self-explanatory, but for some reason it cannot be overwritten. It must be deleted during a reset, otherwise the music file continues playing. This is likely because it is passed onto a different thread in the program, seperate from actual objects.
@@ -63,13 +65,20 @@ MUSIC:
 EFFICIENCY:
   All algorithms in the program are approximately O(N), with the expeption of Collection.Sort(). Given the well optimized nature of that sort, this is likely not a bottle-neck. 
   
+VIRUSES:
+  Viruses function as a normal class of orb and use the Kill() method to destroy both themselves and the orbs they break. They only break orbs larger than themselves. Their turn() method does nothing, thus preventing their motion.
+  
+=====
 
+REQUIREMENTS:
+
+.MP3 drivers may be needed if not already present. Processing will not start the sketch otherwise.
 
 =====
 
 ACKNOWLEDGEMENTS: 
 
--MSPaintAdventure for their ownership of Courtroom Shuffle
+-MSPaintAdventures for their ownership of Courtroom Shuffle
 
 -Processing and Stack Overflow for advice for running sound
 
