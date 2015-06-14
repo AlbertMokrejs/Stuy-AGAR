@@ -119,7 +119,7 @@ public void displayDead() {
   textSize(38); 
   String f = "You were eaten by a predator, RIP. \nThis was your score: " + score;
   text(f, 225, 250);
-  String x = "\nCare to try again, fighting against the futile nature of this world? \n\nR to Restart\nShift needed to prevent accidental resets";
+  String x = "\nYou're garbage, wanna try again though? \n\nR to Restart\nShift needed to prevent accidental resets";
   textSize(15);
   text(x, 225, 400);
   //rect(50, 300, 20);
@@ -280,7 +280,7 @@ public void draw() {
 public void massMotion() {
   for (Mass M : MassList) {
     fill(M.getColor());
-    ellipse((float)(width/2+(M.xcor-player.xcor)),(float)(height/2+(M.ycor-player.ycor)), (float)M.getS()*2, (float)M.getS()*2);
+    ellipse((float)(width/2+50),(float)(height/2+50), (float)M.getS()*2, (float)M.getS()*2);
   }
 }
 
